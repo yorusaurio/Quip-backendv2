@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = "https://quips.netlify.app")
 @RestController
 @RequestMapping("/api/news")
 public class NewsController {
@@ -29,6 +29,7 @@ public class NewsController {
     private UserRepository userRepository;
 
     // Obtener todas las noticias (para cualquier usuario)
+
     @GetMapping
     public ResponseEntity<List<NewsDTO>> getAllNews() {
         List<News> newsList = newsService.getAllNews();
@@ -37,6 +38,7 @@ public class NewsController {
     }
 
     // Crear una noticia (solo para admin)
+
     @PostMapping("/add")
     public ResponseEntity<?> createNews(@RequestHeader("Authorization") String token, @RequestBody NewsDTO newsDTO) {
         // Verificar si es administrador
@@ -49,6 +51,7 @@ public class NewsController {
     }
 
     // Editar una noticia (solo para admin)
+
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editNews(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody NewsDTO newsDTO) {
         if (!isAdmin(token)) {
@@ -59,7 +62,9 @@ public class NewsController {
         return ResponseEntity.ok("Noticia actualizada.");
     }
 
+
     // Eliminar una noticia (solo para admin)
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteNews(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         if (!isAdmin(token)) {
